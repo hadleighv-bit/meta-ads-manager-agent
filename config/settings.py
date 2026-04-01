@@ -22,6 +22,13 @@ class Settings:
         self.meta_ad_account_id: str = os.environ["META_AD_ACCOUNT_ID"]
         self.anthropic_api_key: str = os.environ["ANTHROPIC_API_KEY"]
         self.thresholds: dict = _load_thresholds()
+        # Optional email settings
+        self.email_recipient: str = os.getenv("EMAIL_RECIPIENT", "")
+        self.smtp_host: str = os.getenv("SMTP_HOST", "smtp.gmail.com")
+        self.smtp_port: int = int(os.getenv("SMTP_PORT", "587"))
+        self.smtp_user: str = os.getenv("SMTP_USER", "")
+        self.smtp_password: str = os.getenv("SMTP_PASSWORD", "")
+        self.email_sender: str = os.getenv("EMAIL_SENDER", os.getenv("SMTP_USER", ""))
 
     @property
     def min_roas(self) -> float:

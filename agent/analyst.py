@@ -20,6 +20,7 @@ from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from config.settings import settings
+from .reporter import Reporter
 from tools.campaign_tools import (
     get_all_campaigns,
     get_campaign_insights,
@@ -316,9 +317,14 @@ class AnalysisAgent:
         self.client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
         self.reports_dir = Path("reports")
         self.reports_dir.mkdir(exist_ok=True)
+        # Accumulated during a run for the reporter scorecard
+        self._campaigns: dict[str, dict] = {}       # campaign_id -> campaign row
+        self._campaign_insights: dict[str, dict] = {}  # campaign_id -> insights row
 
     def run_analysis(self, mode: AnalysisMode = "report_only") -> str:
         """Run a full analysis cycle in the given mode."""
+        self._campaigns = {}
+        self._campaign_insights = {}
         console.print(
             Panel.fit(
                 f"[bold cyan]Meta Ads Analyst[/bold cyan]  [dim]mode={mode}[/dim]\n"
@@ -359,7 +365,12 @@ class AnalysisAgent:
             confirmation_handler=confirmation_handler,
         )
 
-        self._save_report(final_text, mode)
+        campaign_metrics = self._build_campaign_metrics()
+        Reporter(
+            analysis_text=final_text,
+            campaign_metrics=campaign_metrics,
+            mode=mode,
+        ).generate()
         return final_text
 
     # ------------------------------------------------------------------
@@ -465,6 +476,7 @@ class AnalysisAgent:
             else:
                 try:
                     result = _dispatch(tool_name, tool_input)
+                    self._capture_metrics(tool_name, tool_input, result)
                 except Exception as exc:
                     result = {"error": str(exc)}
                     console.print(f"  [red]Error: {exc}[/red]")
@@ -480,11 +492,44 @@ class AnalysisAgent:
         return results
 
     # ------------------------------------------------------------------
-    # Persistence
+    # Metric collection
     # ------------------------------------------------------------------
 
-    def _save_report(self, text: str, mode: str) -> None:
-        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-        path = self.reports_dir / f"analysis_{mode}_{ts}.md"
-        path.write_text(text)
-        console.print(f"\n[dim]Report saved → {path}[/dim]")
+    def _capture_metrics(self, tool_name: str, tool_input: dict, result: Any) -> None:
+        """Store campaign list and insights as they arrive for the reporter scorecard."""
+        if tool_name == "get_all_campaigns" and isinstance(result, list):
+            for c in result:
+                cid = c.get("id")
+                if cid:
+                    self._campaigns[cid] = c
+        elif tool_name == "get_campaign_insights" and isinstance(result, dict) and "error" not in result:
+            cid = tool_input.get("campaign_id") or result.get("campaign_id")
+            if cid:
+                self._campaign_insights[cid] = result
+
+    def _build_campaign_metrics(self) -> list[dict]:
+        """Merge campaign list + insights into rows for the reporter."""
+        rows: list[dict] = []
+        for cid, campaign in self._campaigns.items():
+            insights = self._campaign_insights.get(cid, {})
+            rows.append({
+                "campaign_id": cid,
+                "name": campaign.get("name", cid),
+                "status": campaign.get("status", "—"),
+                "spend": insights.get("spend", 0),
+                "roas": insights.get("roas", 0),
+                "ctr": insights.get("ctr", 0),
+                "cpc": insights.get("cpc", 0),
+                "cpm": insights.get("cpm", 0),
+                "frequency": insights.get("frequency", 0),
+            })
+        # Also include any insights for campaigns not yet in the list
+        for cid, insights in self._campaign_insights.items():
+            if cid not in self._campaigns:
+                rows.append({
+                    "campaign_id": cid,
+                    "name": cid,
+                    "status": "—",
+                    **{k: insights.get(k, 0) for k in ("spend", "roas", "ctr", "cpc", "cpm", "frequency")},
+                })
+        return rows

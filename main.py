@@ -2,17 +2,20 @@
 Entry point for the Meta Ads Manager Agent.
 
 Usage:
-    # Run once
+    # Report only (no actions taken) — default
     python main.py
 
-    # Run once in dry-run mode (no mutations)
-    python main.py --dry-run
+    # Semi-auto: Claude proposes, you confirm each action
+    python main.py --mode semi_auto
 
-    # Run on a schedule (every hour by default)
+    # Full auto: Claude acts autonomously
+    python main.py --mode full_auto
+
+    # Run on a schedule (every 60 minutes by default)
     python main.py --schedule
 
-    # Run on a custom interval (minutes)
-    python main.py --schedule --interval 30
+    # Custom interval
+    python main.py --schedule --interval 30 --mode semi_auto
 """
 import argparse
 import sys
@@ -21,17 +24,19 @@ import time
 import schedule
 from rich.console import Console
 
-from agent import MetaAdsAgent
+from agent import AnalysisAgent
 
 console = Console()
 
+VALID_MODES = ("report_only", "semi_auto", "full_auto")
 
-def _run_agent(dry_run: bool) -> None:
+
+def _run_agent(mode: str) -> None:
     try:
-        agent = MetaAdsAgent(dry_run=dry_run)
-        agent.run()
+        agent = AnalysisAgent()
+        agent.run_analysis(mode=mode)  # type: ignore[arg-type]
     except KeyboardInterrupt:
-        console.print("\n[yellow]Interrupted by user.[/yellow]")
+        console.print("\n[yellow]Interrupted.[/yellow]")
         raise
     except Exception as exc:
         console.print(f"[bold red]Agent run failed:[/bold red] {exc}")
@@ -43,15 +48,15 @@ def main() -> None:
         description="Meta Ads Manager Agent — AI-powered ad account optimiser"
     )
     parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        default=True,
-        help="Do not apply any changes; only report recommendations (default: True)",
-    )
-    parser.add_argument(
-        "--apply",
-        action="store_true",
-        help="Apply automated actions (pause ad sets, adjust budgets). Overrides --dry-run.",
+        "--mode",
+        choices=VALID_MODES,
+        default="report_only",
+        help=(
+            "Analysis mode: "
+            "'report_only' (default) — analyse only, no actions; "
+            "'semi_auto' — propose actions with terminal confirmation; "
+            "'full_auto' — execute actions autonomously."
+        ),
     )
     parser.add_argument(
         "--schedule",
@@ -66,19 +71,13 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    dry_run = not args.apply
-
     if args.schedule:
         console.print(
-            f"[bold green]Scheduling agent every {args.interval} minute(s).[/bold green] "
-            f"Press Ctrl+C to stop."
+            f"[bold green]Scheduling agent every {args.interval} minute(s)  "
+            f"(mode={args.mode}).[/bold green]  Press Ctrl+C to stop."
         )
-
-        # Run immediately on start, then on schedule
-        _run_agent(dry_run=dry_run)
-
-        schedule.every(args.interval).minutes.do(_run_agent, dry_run=dry_run)
-
+        _run_agent(mode=args.mode)
+        schedule.every(args.interval).minutes.do(_run_agent, mode=args.mode)
         try:
             while True:
                 schedule.run_pending()
@@ -87,7 +86,7 @@ def main() -> None:
             console.print("\n[yellow]Scheduler stopped.[/yellow]")
             sys.exit(0)
     else:
-        _run_agent(dry_run=dry_run)
+        _run_agent(mode=args.mode)
 
 
 if __name__ == "__main__":

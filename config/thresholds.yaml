@@ -1,0 +1,6 @@
+min_roas: 3.5
+max_cpm: 15.00
+max_cpc: 2.00
+min_ctr: 1.5
+frequency_cap: 4.0
+budget_burn_rate_warning: 0.85

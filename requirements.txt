@@ -1,0 +1,7 @@
+anthropic>=0.40.0
+facebook-business>=19.0.0
+pandas>=2.2.0
+python-dotenv>=1.0.0
+rich>=13.9.0
+schedule>=1.2.0
+PyYAML>=6.0.2

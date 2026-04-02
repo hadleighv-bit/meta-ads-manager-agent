@@ -40,7 +40,7 @@ from .confirmation import ActionConfirmationHandler, WRITE_TOOLS
 
 console = Console()
 
-MODEL = "claude-opus-4-5"
+_DEFAULT_MODEL = "claude-opus-4-6"  # overridable via CLAUDE_MODEL env var
 
 AnalysisMode = Literal["report_only", "semi_auto", "full_auto"]
 
@@ -278,6 +278,10 @@ _MODE_INSTRUCTIONS = {
 # ---------------------------------------------------------------------------
 
 def _dispatch(tool_name: str, tool_input: dict) -> Any:
+    if settings.mock_meta:
+        from tools.mock_meta_api import dispatch_mock
+        return dispatch_mock(tool_name, tool_input)
+
     handlers: dict[str, Any] = {
         "get_account_summary": lambda i: get_account_summary(settings.meta_ad_account_id),
         "get_all_campaigns": lambda i: get_all_campaigns(settings.meta_ad_account_id),
@@ -314,6 +318,7 @@ def _dispatch(tool_name: str, tool_input: dict) -> Any:
 
 class AnalysisAgent:
     def __init__(self) -> None:
+        self.model: str = settings.claude_model  # resolved at instantiation time (after .env load)
         self.client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
         self.reports_dir = Path("reports")
         self.reports_dir.mkdir(exist_ok=True)
@@ -396,7 +401,7 @@ class AnalysisAgent:
             ) as progress:
                 progress.add_task("")
                 response = self.client.messages.create(
-                    model=MODEL,
+                    model=self.model,
                     max_tokens=8096,
                     system=system,
                     tools=ANALYST_TOOLS,

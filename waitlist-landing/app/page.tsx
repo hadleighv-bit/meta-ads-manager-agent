@@ -99,7 +99,7 @@ export default function Home() {
           <div className="mt-12 grid gap-px overflow-hidden border border-ink/10 bg-ink/10 sm:grid-cols-3">
             {educationCards.map((card, i) => (
               <article key={card.title} className="bg-paper p-8">
-                <p className="font-display text-sm text-accent">
+                <p className="font-display text-sm text-accent-deep">
                   0{i + 1}
                 </p>
                 <h3 className="mt-4 font-display text-xl">{card.title}</h3>

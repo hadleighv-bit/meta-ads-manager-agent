@@ -5,7 +5,7 @@
  * meta tag and copy block reads from this file.
  */
 export const site = {
-  brandName: process.env.NEXT_PUBLIC_BRAND_NAME || "ORA",
+  brandName: process.env.NEXT_PUBLIC_BRAND_NAME || "LaLa Labs",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://example.com",
   instagramUrl:
     process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com/yourbrand",

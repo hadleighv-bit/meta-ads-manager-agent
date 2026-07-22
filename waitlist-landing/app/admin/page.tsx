@@ -78,7 +78,7 @@ export default function AdminPage() {
           <button
             type="submit"
             disabled={loading || !password}
-            className="h-12 bg-accent px-6 text-sm font-medium uppercase tracking-widest2 text-paper hover:bg-accent-dark disabled:opacity-60"
+            className="h-12 bg-accent px-6 text-sm font-semibold uppercase tracking-widest2 text-ink hover:bg-accent-dark disabled:opacity-60"
           >
             {loading ? "Checking…" : "View signups"}
           </button>
@@ -103,7 +103,7 @@ export default function AdminPage() {
         </div>
         <button
           onClick={downloadCsv}
-          className="border border-accent px-5 py-3 text-[11px] font-medium uppercase tracking-widest2 text-accent hover:bg-accent hover:text-paper"
+          className="border border-accent px-5 py-3 text-[11px] font-semibold uppercase tracking-widest2 text-accent-deep hover:bg-accent hover:text-ink"
         >
           Export CSV
         </button>

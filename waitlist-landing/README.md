@@ -21,11 +21,13 @@ built mobile-first for Instagram traffic and deployable to Vercel.
   for Instagram link sharing
 - **Plausible and/or GA4** analytics, enabled purely by env vars
 
-## Set the brand name
+## Brand
 
-The brand name is a placeholder (`ORA`). Set `NEXT_PUBLIC_BRAND_NAME` in your
-env — every component, meta tag, and copy block reads it from
-[`lib/site.ts`](lib/site.ts), so it's a one-variable change.
+The site is branded **LaLa Labs**: sign-orange accent (`#EFA33C`) on deep
+café-teal ink (`#17383B`), with Shantell Sans as the hand-lettered display
+face. The name can be overridden with `NEXT_PUBLIC_BRAND_NAME` — every
+component, meta tag, and copy block reads it from [`lib/site.ts`](lib/site.ts);
+colours live in [`tailwind.config.ts`](tailwind.config.ts).
 
 ## Local development
 

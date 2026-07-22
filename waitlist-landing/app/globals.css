@@ -10,7 +10,11 @@
     @apply bg-paper text-ink antialiased;
   }
   ::selection {
-    @apply bg-accent text-paper;
+    @apply bg-accent text-ink;
+  }
+  /* Display face carries the hand-lettered brand energy — keep it chunky */
+  .font-display {
+    font-weight: 600;
   }
 }
 
@@ -22,6 +26,6 @@
     @apply mx-auto w-full max-w-5xl px-6;
   }
   .eyebrow {
-    @apply text-[11px] font-medium uppercase tracking-widest2 text-accent;
+    @apply text-[11px] font-medium uppercase tracking-widest2 text-accent-deep;
   }
 }

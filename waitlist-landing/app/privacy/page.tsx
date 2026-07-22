@@ -66,7 +66,7 @@ export default function PrivacyPage() {
       <p className="mt-12">
         <Link
           href="/"
-          className="text-sm text-accent underline-offset-4 hover:underline"
+          className="text-sm text-accent-deep underline-offset-4 hover:underline"
         >
           ← Back to {site.brandName}
         </Link>

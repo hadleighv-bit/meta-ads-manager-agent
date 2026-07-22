@@ -8,15 +8,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        paper: "#FAFAF7",
-        ink: "#15181A",
+        // LaLa Labs palette — sign orange on café teal
+        paper: "#FBF9F4",
+        ink: "#17383B",
         stone: {
-          light: "#EDEDE8",
-          mid: "#8A8F8C",
+          light: "#EDEBE3",
+          mid: "#84908D",
         },
         accent: {
-          DEFAULT: "#1E4D3B",
-          dark: "#153A2C",
+          DEFAULT: "#EFA33C", // sign orange: buttons, fills, marks
+          dark: "#D68A25", // hover
+          deep: "#A05F10", // small text on light grounds (AA contrast)
         },
       },
       fontFamily: {

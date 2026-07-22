@@ -1,13 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Shantell_Sans, Inter } from "next/font/google";
 import { site } from "@/lib/site";
 import Analytics from "@/components/Analytics";
 import "./globals.css";
 
-const display = Fraunces({
+const display = Shantell_Sans({
   subsets: ["latin"],
   variable: "--font-display",
-  axes: ["opsz"],
 });
 
 const sans = Inter({
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FAFAF7",
+  themeColor: "#FBF9F4",
 };
 
 export default function RootLayout({

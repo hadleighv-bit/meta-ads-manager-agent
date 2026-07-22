@@ -16,8 +16,8 @@ export default function OgImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#FAFAF7",
-          color: "#15181A",
+          background: "#FBF9F4",
+          color: "#17383B",
           padding: "72px 80px",
           fontFamily: "Georgia, serif",
         }}
@@ -27,7 +27,7 @@ export default function OgImage() {
             fontSize: 28,
             letterSpacing: "0.25em",
             textTransform: "uppercase",
-            color: "#1E4D3B",
+            color: "#A05F10",
           }}
         >
           {site.brandName}
@@ -40,13 +40,13 @@ export default function OgImage() {
             style={{
               fontSize: 32,
               marginTop: 28,
-              color: "#1E4D3B",
+              color: "#A05F10",
             }}
           >
             Founding members get 30% off.
           </div>
         </div>
-        <div style={{ fontSize: 22, color: "#8A8F8C" }}>
+        <div style={{ fontSize: 22, color: "#84908D" }}>
           Dietary supplement · Independently tested in NZ labs
         </div>
       </div>

@@ -42,7 +42,7 @@ export default function EmailForm() {
     return (
       <p
         role="status"
-        className="border border-accent bg-accent/5 px-5 py-4 text-sm leading-relaxed text-accent"
+        className="border border-accent bg-accent/10 px-5 py-4 text-sm leading-relaxed text-accent-deep"
       >
         {message}
       </p>
@@ -69,7 +69,7 @@ export default function EmailForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="h-12 whitespace-nowrap bg-accent px-6 text-sm font-medium uppercase tracking-widest2 text-paper transition-colors hover:bg-accent-dark disabled:opacity-60"
+          className="h-12 whitespace-nowrap bg-accent px-6 text-sm font-semibold uppercase tracking-widest2 text-ink transition-colors hover:bg-accent-dark disabled:opacity-60"
         >
           {status === "loading" ? "Joining…" : "Join the founding list"}
         </button>

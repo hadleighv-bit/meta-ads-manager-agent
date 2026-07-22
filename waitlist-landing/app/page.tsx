@@ -55,7 +55,10 @@ export default function Home() {
       {/* Hero */}
       <section className="border-b border-ink/10">
         <div className="container-narrow flex min-h-[92svh] flex-col justify-center py-16">
-          <p className="eyebrow">{site.brandName} · Dietary supplement</p>
+          <p className="font-logo text-2xl text-accent-deep">
+            {site.brandName}
+          </p>
+          <p className="eyebrow mt-3">Dietary supplement</p>
           <h1 className="mt-6 font-display text-4xl leading-[1.08] sm:text-5xl">
             NZ&apos;s batch-tested NMN. Founding members get 30% off.
           </h1>
@@ -224,7 +227,9 @@ export default function Home() {
       <footer>
         <div className="container-wide py-14">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-            <p className="font-display text-lg">{site.brandName}</p>
+            <p className="font-logo text-xl text-accent-deep">
+              {site.brandName}
+            </p>
             <nav aria-label="Footer" className="flex gap-8 text-sm">
               <Link
                 href="/privacy"

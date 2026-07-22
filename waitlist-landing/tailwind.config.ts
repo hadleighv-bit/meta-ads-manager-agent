@@ -23,6 +23,7 @@ const config: Config = {
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
+        logo: ["var(--font-logo)", "cursive"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       letterSpacing: {

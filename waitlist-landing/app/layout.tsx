@@ -1,12 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Shantell_Sans, Inter } from "next/font/google";
+import { Fraunces, Inter, Shantell_Sans } from "next/font/google";
 import { site } from "@/lib/site";
 import Analytics from "@/components/Analytics";
 import "./globals.css";
 
-const display = Shantell_Sans({
+const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
+  axes: ["opsz"],
+});
+
+// Hand-lettered face reserved for the LaLa Labs wordmark only
+const logo = Shantell_Sans({
+  subsets: ["latin"],
+  variable: "--font-logo",
 });
 
 const sans = Inter({
@@ -43,7 +50,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-NZ" className={`${display.variable} ${sans.variable}`}>
+    <html
+      lang="en-NZ"
+      className={`${display.variable} ${logo.variable} ${sans.variable}`}
+    >
       <body className="font-sans">
         {children}
         <Analytics />

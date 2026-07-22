@@ -12,9 +12,9 @@
   ::selection {
     @apply bg-accent text-ink;
   }
-  /* Display face carries the hand-lettered brand energy — keep it chunky */
-  .font-display {
-    font-weight: 600;
+  /* Hand-lettered face is confined to the wordmark — keep it chunky there */
+  .font-logo {
+    font-weight: 700;
   }
 }
 

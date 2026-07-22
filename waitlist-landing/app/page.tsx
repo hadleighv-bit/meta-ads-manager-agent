@@ -160,6 +160,49 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Pipeline — second product teaser (kept claim-free: see README compliance notes) */}
+      <section className="border-b border-ink/10">
+        <div className="container-wide py-20 sm:py-28">
+          <p className="eyebrow">In development</p>
+          <h2 className="mt-4 max-w-lg font-display text-3xl leading-tight sm:text-4xl">
+            Next from the lab: fasting support
+          </h2>
+          <div className="mt-10 grid gap-12 sm:grid-cols-2">
+            <div>
+              <p className="text-base leading-relaxed text-ink/70">
+                NMN is only the beginning. {site.brandName} is developing its
+                second product — a once-daily dietary supplement formulated
+                for the fasting community, designed to support steady energy
+                and general comfort through extended fasts.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-ink/70">
+                It&apos;s in formulation now and will go through the same
+                independent New Zealand batch testing as our NMN. Founding
+                list members hear about it first.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl">Why fasting?</h3>
+              <p className="mt-4 text-sm leading-relaxed text-ink/70">
+                Much of the interest in extended fasting centres on autophagy
+                — the body&apos;s natural process of cellular renewal and
+                recycling. Research into the mechanisms of autophagy was
+                awarded the 2016 Nobel Prize in Physiology or Medicine, and
+                it remains one of the most closely watched areas of
+                healthy-ageing science.
+              </p>
+              <p className="mt-4 text-xs leading-relaxed text-stone-mid">
+                Field education only — not a claim about any{" "}
+                {site.brandName} product. This product is not intended to
+                diagnose, treat, cure or prevent any disease. Extended
+                fasting isn&apos;t suitable for everyone; talk to your health
+                professional before changing how you eat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Founder */}
       <section className="border-b border-ink/10">
         <div className="container-wide py-20 sm:py-28">
